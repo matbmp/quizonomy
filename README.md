@@ -1,26 +1,3 @@
-# SvelteStarter
+# quizonomy
 
-This is a starter project including Tailwind, Flowbite and static adapter.
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+Quizonomy is an app that centers around taking quizzes. But taking quizzes alone can get boring quite fast, so you can compete with your friends or people from around the whole world. Each day you have 3 attempts at taking economy-quiz for which you'll get Quoins! Answer correctly and be as fast as possible to climb the daily, weekly and monthly leaderboard. You can also take live quizzes with one of your friends!
