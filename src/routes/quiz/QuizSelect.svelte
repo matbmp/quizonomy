@@ -5,7 +5,7 @@
 	export let quizzes: QuizData[];
 </script>
 
-<div class="overflow-y-auto h-full flex flex-col gap-4 px-2">
+<div class="overflow-y-auto grow flex flex-col gap-4 px-2">
 	{#each quizzes as quiz}
 		<a href="quiz/{quiz.id}">
 			<QuizSelectCard {quiz} />

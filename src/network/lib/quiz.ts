@@ -1,4 +1,5 @@
 import { axiosClient } from '../../network/axiosClient';
+import type { UserExtendedData } from './auth';
 
 interface QuizzesQueryParams{
     searchQuery: string,
@@ -8,7 +9,7 @@ interface QuizzesQueryParams{
 
 interface SubmitQuizData{
     correctCount: number,
-    time: Date,
+    timeMilliseconds: number,
     quizId: number
 }
 
@@ -18,7 +19,7 @@ interface UserData{
 }
 
 export interface QuestionData {
-    question: string,
+    questionText: string,
     answers: string[],
     answersJsonArray: string,
     correctAnswer: number,
@@ -30,15 +31,21 @@ export interface QuizData{
     name: string,
     author: UserData,
     questions: QuestionData[],
-    timesFinished: number,
-    bestCorrectToTimeRatio: number
+    attemptCount: number,
+    bestAttemptScore: number
     imageUrl: string | undefined,
 }
 
 export interface AttemptData{
     user: string,
     correctCount: number,
-    time: string,
+    timeMilliseconds: number,
+}
+
+export interface UserRankingData{
+    daily: UserExtendedData[],
+    weekly: UserExtendedData[],
+    monthly: UserExtendedData[],
 }
 
 export function getQuizzes(params: QuizzesQueryParams) : Promise<QuizData[]>{
@@ -55,14 +62,21 @@ export function getDailyQuiz() : Promise<number>{
     return axiosClient.get('/quiz/daily').then(response => response.data as number);
 }
 
+export function getPopularQuiz(take: number) : Promise<QuizData[]>{
+    return axiosClient.get('/quiz/popular', {params: {take}}).then(response => response.data as QuizData[])
+}
+
 export function submitQuiz(submitData: SubmitQuizData){
     return axiosClient.post('/quiz/submit',
     { ...submitData },
     ).then(response => response.data)
 }
 
+export function userRankings() : Promise<UserRankingData>{
+    return axiosClient.get('/user/rankings').then(response => response.data);
+}
+
 function parseQuiz(quiz: QuizData): QuizData{
-    
     const done = {
         ...quiz,
         questions: quiz.questions.map(question => {
@@ -72,6 +86,5 @@ function parseQuiz(quiz: QuizData): QuizData{
             }
         })
     }
-    console.log(done)
     return done
 }

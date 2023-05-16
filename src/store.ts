@@ -1,14 +1,21 @@
 import { writable } from 'svelte/store';
-import type {Writable} from 'svelte/store';
-import type { UserExtendedData } from './network/lib/auth';
+import type { Writable } from 'svelte/store';
+import type { SessionData } from './network/lib/auth';
+import { browser } from '$app/environment';
 
-export const noUser = {
-    id: 0,
-    username: '',
-    dailyQuoins: 0,
-    weeklyQuoins: 0,
-    monthlyQuoins: 0,
-    dailyCount:0
+const storedSession = (): SessionData => {
+	if (browser) {
+		const storageSession = localStorage.getItem('session');
+		if (storageSession == null) return { key: null, user: null };
+		return JSON.parse(storageSession);
+	}
+	return { key: null, user: null };
+};
+export const session: Writable<SessionData> = writable<SessionData>(
+	(browser && storedSession()) || { key: null, user: null }
+);
+if (browser) {
+	session.subscribe((value) => {
+		localStorage.setItem('session', JSON.stringify(value));
+	});
 }
-
-export const user : Writable<UserExtendedData> = writable<UserExtendedData>(noUser)

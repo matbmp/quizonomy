@@ -1,33 +1,33 @@
 <script lang="ts">
-	import QuestionMark from 'virtual:icons/mdi/help-circle-outline';
 	import Check from 'virtual:icons/mdi/check';
 	import type { QuizData } from '../../network/lib/quiz';
 	export let quiz: QuizData
 </script>
 
-<div class="border-2 bg-white bg-opacity-0 hover:bg-opacity-25 border-slate-300 p-2 rounded-2xl shadow-lg">
+<div class="rounded-2xl bg-opacity-5 bg-black">
     <div class="grid grid-cols-8 h-full">
         <div
-            class="col-span-3 xl:col-span-2 bg-gradient-to-r from-rose-400 to-violet-400 rounded flex items-center justify-center"
+            class="col-span-2 xl:col-span-2 rounded-l-2xl flex items-center justify-center bg-gradient-to-tr from-qorange to-qyellow"
         >
             {#if quiz.imageUrl !== undefined}
                 <img src={quiz.imageUrl} alt="" />
             {:else}
-                <QuestionMark class="text-8xl text-white" />
+                <div></div>
             {/if}
         </div>
-        <div class="col-span-5 xl:col-span-6 p-3 flex flex-col">
-            <div>
-                <span class="text-2xl font-semibold">{quiz.name}</span>
+        <div class="col-span-5 xl:col-span-6 p-2 px-3 flex flex-col rounded-r-2xl">
+            <div class='pt-2'>
+                <span class="text-3xl font-semibold">{quiz.name}</span>
             </div>
-            <div class="text-slate-500 text-xl">
-                {quiz.author}
+            <div class="pb-6 text-[#F7B060] text-xl">
+                {quiz.author.username}
             </div>
-            <div class="mb-auto flex">
+            <div>Ilość pytań: {quiz.questions.length}</div>
+            <div class="mb-auto flex text-black/50">
                 <div class="italic">
-                    <Check class="inline-block" />done <span class='font-bold'>{quiz.timesFinished}</span> times 
+                    <Check class="inline-block" />Ukończono <span class='font-bold'>{quiz.attemptCount ?? '?'}</span> razy 
                 </div>
-                <div class="ms-auto" >Best score: {quiz.bestCorrectToTimeRatio} CA/s</div>
+                <div class="ms-auto" >Najlepszy wynik: {quiz.bestAttemptScore.toFixed(2) ?? '?'} PO/s</div>
             </div>
         </div>
     </div>

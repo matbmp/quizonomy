@@ -14,14 +14,19 @@ export interface UserExtendedData{
     dailyCount: number,
 }
 
+export interface SessionData{
+    key: string | null,
+    user: UserExtendedData | null
+}
+
 export function login(login: loginData){
     return axiosClient.post('/session', 
     {...login}
-    )
+    ).then(response => response.data as SessionData)
 }
 
-export function logout(){
-    return axiosClient.delete('/session');
+export function logout(key: string | null){
+    return axiosClient.delete('/session', {params: { key }});
 }
 
 export function introspect(){
