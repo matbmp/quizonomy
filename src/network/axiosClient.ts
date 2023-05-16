@@ -16,3 +16,10 @@ axiosClient.interceptors.request.use((config) => {
 	config.headers.Authorization = get(session).key
 	return config;
 })
+
+
+/*
+axiosClient.interceptors.response.use((response) => response, (error) => {
+	return error
+});
+*/	

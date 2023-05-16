@@ -19,3 +19,5 @@ if (browser) {
 		localStorage.setItem('session', JSON.stringify(value));
 	});
 }
+
+export const appError : Writable<string|undefined> = writable(undefined);

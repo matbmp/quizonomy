@@ -4,14 +4,15 @@
 	import { getDailyQuiz, getPopularQuiz, getQuizzes } from '../network/lib/quiz';
 	import QuizSelect from './quiz/QuizSelect.svelte';
 	import { goto } from '$app/navigation';
-	import { session } from '../store';
+	import {  appError, session } from '../store';
 	import QuizSelectCard from './quiz/QuizSelectCard.svelte';
 	import { onMount } from 'svelte';
 	import { introspect } from '../network/lib/auth';
 
 	let searchQuery: string = '';
-	let quizzesPromise = getQuizzes({ searchQuery, skip: 0, take: 10 });
-	$: quizzesPromise = getQuizzes({ searchQuery, skip: 0, take: 10 });
+	$: quizzesPromise = getQuizzes({ searchQuery, skip: 0, take: 10 }).catch((e) => {
+		$appError = e;
+	});
 	let bestQuizzesPromise = getPopularQuiz(4);
 
 	onMount(async () => {
@@ -34,7 +35,9 @@
 	{#if searchQuery.length > 0}
 		<div class="grow bg-cream rounded-t-2xl py-4 px-2">
 			{#await quizzesPromise then quizzes}
-				<QuizSelect {quizzes} />
+				{#if quizzes != undefined}
+					<QuizSelect {quizzes} />
+				{/if}
 			{/await}
 		</div>
 	{:else}
